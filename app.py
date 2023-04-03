@@ -4,7 +4,7 @@ app = Flask(__name__)
 # HTML을 렌더하는 방법
 @app.route('/')
 def home():
-   return render_template('index.html')
+   return render_template('home.html')
 
 # GET API
 @app.route('/test', methods=['GET'])
