@@ -168,14 +168,7 @@ def get_problems():
 
 @app.route('/api/problems', methods=["POST"])
 def create_problem():
-    print(request.user)
-    print(request.user["_id"])
-    user_id = request.user["_id"]
     problems = request.get_json()['problems']
-    
-    for problem in problems:
-        problem['user'] = user_id
-
     db.problems.insert_many(problems)
     return {"success": True}
 
@@ -196,13 +189,16 @@ def quiz_grading():
     problems = list(db.problems.find({'_id': {'$in': poids}}))
     
     solved_problems = []
+    correctCount = 0
     
     for p in problems:
         p['_id'] = str(p['_id'])
         answer = pidAnswerMapper[p['_id']]
-        solved_problems.append({'problem': json.dumps(p), 'answer' : answer, 'correct' : answer == p['answer']})
+        solved_problems.append({'problem': p, 'answer' : answer, 'correct' : answer == p['answer']})
+        correctCount += 1 if answer == p['answer'] else 0
 
-    return jsonify(solved_problems)
+    # return jsonify(solved_problems)
+    return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
 
 
 if __name__ == '__main__':
