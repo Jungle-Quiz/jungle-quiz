@@ -18,7 +18,9 @@
   </head>
   <body>
     <div class="w-96 mx-auto">
-      <h1 class="text-2xl text-center mb-10">Jungle Quiz</h1>
+      <h1 class="text-2xl text-center mb-10">
+        <a href="/">Jungle Quiz</a>
+      </h1>
       <div id="quiz-container">
         <div>
           <select
@@ -45,62 +47,46 @@
               rows="4"
             ></textarea>
           </div>
-          <div class="flex flex-col mb-2">
+          <div class="flex flex-col mb-2 multiple-choice">
             <div class="block text-gray-700 font-bold mb-2">
               보기를 입력하고 정답을 체크해주세요
             </div>
-            <label class="inline-flex items-center mt-3">
-              <input
-                type="radio"
-                class="form-radio text-indigo-600"
-                name="radio-group"
-                value="option1"
-              />
-              <input
-                type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="1번 보기를 입력해주세요"
-              />
-            </label>
-            <label class="inline-flex items-center mt-3">
-              <input
-                type="radio"
-                class="form-radio text-indigo-600"
-                name="radio-group"
-                value="option2"
-              />
-              <input
-                type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="2번 보기를 입력해주세요"
-              />
-            </label>
-            <label class="inline-flex items-center mt-3">
-              <input
-                type="radio"
-                class="form-radio text-indigo-600"
-                name="radio-group"
-                value="option3"
-              />
-              <input
-                type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="3번 보기를 입력해주세요"
-              />
-            </label>
-            <label class="inline-flex items-center mt-3">
-              <input
-                type="radio"
-                class="form-radio text-indigo-600"
-                name="radio-group"
-                value="option3"
-              />
-              <input
-                type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="4번 보기를 입력해주세요"
-              />
-            </label>
+            <div class="multiple-choice-container">
+              <label class="inline-flex items-center mt-3 w-full">
+                <input
+                  type="radio"
+                  class="form-radio text-indigo-600"
+                  name="radio-group-0"
+                  value="0"
+                />
+                <input
+                  type="text"
+                  class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  placeholder="1번 보기를 입력해주세요"
+                />
+              </label>
+              <label class="inline-flex items-center mt-3 w-full">
+                <input
+                  type="radio"
+                  class="form-radio text-indigo-600"
+                  name="radio-group-0"
+                  value="1"
+                />
+                <input
+                  type="text"
+                  class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  placeholder="1번 보기를 입력해주세요"
+                />
+              </label>
+            </div>
+            <!-- <div class="flex justify-center mb-2 mt-3">
+              <button
+                id="add-multiple-choice-btn"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              >
+                +보기 추가
+              </button>
+            </div> -->
           </div>
         </div>
       </div>
@@ -110,7 +96,7 @@
           id="add-quiz"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
         >
-          퀴즈 추가
+          +퀴즈 추가
         </button>
       </div>
       <div class="flex justify-center mb-2">
