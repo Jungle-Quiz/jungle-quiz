@@ -102,7 +102,7 @@ def login():
         return render_template('signin.html', error='username', msg='Username is required')
 
     if password == None or password == '':
-        return render_template('signin.html', error='password', msg='Password is required')
+        return render_template('signin.html', username=username, error='password', msg='Password is required')
 
     # 인증
     user = db.users.find_one({'username': username})
