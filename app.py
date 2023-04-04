@@ -6,11 +6,15 @@ import os
 import jwt
 import re
 import json
+import bcrypt
 
 app = Flask(__name__)
 
 # .env파일 로드
 load_dotenv()
+
+# bcrypt generate a salt
+salt = bcrypt.gensalt()
 
 # DB 연결
 client = MongoClient(os.getenv('MONGO_URL'), 27017)
@@ -53,7 +57,6 @@ def checkMatching(pr, path):
 @app.route('/')
 def home():
     user = request.user
-    print(user)
     return render_template('home.html')
 
 
@@ -82,7 +85,10 @@ def signup():
     if user != None:
         return render_template('signup.html', error='username', msg='username must not be duplicated.')
 
-    db.users.insert_one({'username': username, 'password': password})
+    pw = password.encode('utf-8')
+    hashed_pw = bcrypt.hashpw(pw, salt)
+
+    db.users.insert_one({'username': username, 'password': hashed_pw})
 
     return redirect('/')
 
@@ -111,7 +117,11 @@ def login():
         # error
         return render_template('signin.html', error='username', msg='this username not exists')
 
-    if user['password'] != password:
+    pw = password.encode("utf-8")
+    hashed_pw = bcrypt.hashpw(pw, user['password'])
+    print(hashed_pw)
+    
+    if user['password'] != hashed_pw:
         # error
         return render_template('signin.html', username=username,
                                error='password', msg='password is not valid')
