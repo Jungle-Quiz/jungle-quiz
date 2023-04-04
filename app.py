@@ -179,7 +179,6 @@ def create_problem():
     db.problems.insert_many(problems)
     return {"success": True}
 
-
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     user = request.user
