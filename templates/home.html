@@ -4,9 +4,56 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>정글퀴즈</title>
   </head>
   <body>
-    <h1>정글퀴즈</h1>
+    <div class="w-96 mx-auto">
+      <h1 class="text-2xl text-center mb-10">Jungle Quiz</h1>
+      <div class="mb-3">
+        <label class="block text-gray-700 font-bold mb-2" for="select">
+          문제 주제
+        </label>
+        <select
+          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="select"
+          name="문제 주제 선택"
+        >
+          <option>파이썬</option>
+          <option>자료구조/알고리즘</option>
+          <option>운영체제</option>
+          <option>컴퓨터시스템</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="block text-gray-700 font-bold mb-2" for="select">
+          문항수
+        </label>
+        <select
+          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="select"
+          name="문항수"
+        >
+          <option>10문제</option>
+          <option>15문제</option>
+          <option>20문제</option>
+          <option>모든문제</option>
+        </select>
+      </div>
+      <div class="flex justify-center mb-2">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          퀴즈 풀기
+        </button>
+      </div>
+      <div class="flex justify-center text-center">
+        <a
+          href="#"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+          >퀴즈 생성</a
+        >
+      </div>
+    </div>
   </body>
 </html>
