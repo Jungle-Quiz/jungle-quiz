@@ -52,21 +52,29 @@ def login():
 @app.route("/api/problems", methods=["GET"])
 def get_problems():
     category = request.args.get('category')
-    count = request.args.get('count')
+    count = int(request.args.get('count'))
+
+    print(category)
+    print(type(count))
 
     pipeline = [
-        {"$sample": {"$size": count}},
+        {"$sample": {"size": count}},
         {"$match": {"category": category}}
     ]
 
-    problems = db.problems.aggregate(pipeline)
-    return problems
+    problems = list(db.problems.aggregate(pipeline))
+
+    result = []
+    for problem in problems:
+        problem['_id'] = str(problem['_id'])
+        result.append(problem)
+
+    return jsonify({'problems': result})
 
 @app.route('/api/problems', methods=["POST"])
 def create_problem():
-    return "test"
-    problem_data = request.get_json()
-    db.problems.insert_one(problem_data)
+    problems = request.get_json()['problems']
+    db.problems.insert_many(problems)
     return {"success": True}
 
 @app.route('/api/solved_problems', methods=["POST"])
