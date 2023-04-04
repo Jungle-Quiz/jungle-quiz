@@ -172,6 +172,7 @@ def create_problem():
     db.problems.insert_many(problems)
     return {"success": True}
 
+# 수정할 것
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     user = request.user
@@ -203,7 +204,6 @@ def quiz_grading():
         correctCount += 1 if correct else 0
 
     return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
