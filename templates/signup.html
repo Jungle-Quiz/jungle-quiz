@@ -65,6 +65,7 @@
     </script>
 </head>
 
+<<<<<<< HEAD
 <body class="bg-gray-100 h-screen">
     <div class="container mx-auto px-4 h-full flex justify-center items-center">
         <form action="/signup" method="post" class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -137,6 +138,136 @@
                 </button>
             </div>
         </form>
+=======
+  <body>
+    <div
+      class="container mx-auto px-4 h-full flex justify-center items-center mt-10"
+    >
+      <form
+        action="/signup"
+        method="post"
+        class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
+      >
+        <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
+          Jungle Quiz
+        </h1>
+        {% if (error is none) or (error != 'username') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="username"
+          >
+            username:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+          />
+        </div>
+        {% endif %} {% if error == 'username' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="username"
+          >
+            username:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %} {% if (error is none) or (error != 'password') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="password"
+          >
+            password:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        {% endif %} {% if error == 'password' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="password"
+          >
+            password:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %} {% if (error is none) or (error != 'pwcheck') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2"
+            for="password"
+          >
+            pw check:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="pwcheck"
+            name="pwcheck"
+            type="password"
+            placeholder="Check your password"
+          />
+        </div>
+        {% endif %} {% if error == 'pwcheck' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2"
+            for="password"
+          >
+            pw check:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="pwcheck"
+            name="pwcheck"
+            type="password"
+            placeholder="Check your password"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %}
+
+        <div class="flex justify-center text-center mb-3">
+          <button
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+            type="submit"
+          >
+            가입하기
+          </button>
+        </div>
+        <div>
+          계정이 있으신가요?
+          <a class="text-blue-500 hover:text-blue-700" href="/signin">
+            로그인</a
+          >
+        </div>
+      </form>
+>>>>>>> d1e431e23254b6a14e453da0eb2ce9a5e338ba48
     </div>
 </body>
 

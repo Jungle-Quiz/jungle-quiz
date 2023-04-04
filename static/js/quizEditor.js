@@ -275,6 +275,9 @@ const handleUploadQuizBtnClick = async () => {
   }
 };
 
+$(window).on("beforeunload", function () {
+  return "퀴즈가 제출되지 않았습니다.";
+});
 addQuizBtn.on("click", handleAddQuizBtnClick);
 addContentBtn.on("click", handleAddContentBtnClick);
 uploadQuizBtn.on("click", handleUploadQuizBtnClick);
