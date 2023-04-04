@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import jwt
 import re
+import json
 
 app = Flask(__name__)
 
@@ -21,7 +22,6 @@ permitAllResources = ['/static/*', '/signin', '/signup']
 @app.before_request
 def before_request():
     path = request.path
-    print(path)
     
     canPass = False
 
@@ -37,7 +37,6 @@ def before_request():
             return redirect('/signin')
         else:
             decoded_tkn = jwt.decode(token, "secret", algorithms=["HS256"])
-            print(decoded_tkn)
             user = db.users.find_one({'_id': ObjectId(decoded_tkn['userId'])})
             request.user = user
     
@@ -176,7 +175,33 @@ def create_problem():
 
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
-    return 'quiz grading'
+    user = request.user
+    pids = request.get_json()['problems']
+    answers = request.get_json()['answers']
+    
+    poids = []
+    pidAnswerMapper = dict()
+    
+    for idx, id in enumerate(pids):
+        oid = ObjectId(id)
+        poids.append(oid)
+        pidAnswerMapper[oid] = answers[idx]
+        
+    
+    print(poids)
+    print(pidAnswerMapper)
+    
+    problems = list(db.problems.find({'_id': {'$in': poids}}))
+    
+    solved_problems = []
+    
+    for p in problems:
+        answer = pidAnswerMapper[p['_id']]
+        p['_id'] = str(p['_id'])
+        solved_problems.append({'problem': json.dumps(p), 'answer' : answer, 'correct' : answer == p['answer']})
+
+    
+    return jsonify(solved_problems)
 
 
 if __name__ == '__main__':
