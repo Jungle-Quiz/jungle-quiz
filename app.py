@@ -1,22 +1,62 @@
 from flask import Flask, render_template, jsonify, request, make_response, redirect
 from pymongo import MongoClient
+from bson import ObjectId
 from dotenv import load_dotenv
 import os
 import jwt
+import re
+import json
+import bcrypt
 
 app = Flask(__name__)
 
 # .env파일 로드
 load_dotenv()
 
+# bcrypt generate a salt
+salt = bcrypt.gensalt()
+
 # DB 연결
 client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
+
+permitAllResources = ['/static/*', '/signin', '/signup']
+
+@app.before_request
+def before_request():
+    path = request.path
+    
+    canPass = False
+
+    for pr in permitAllResources:
+        if checkMatching(pr, path) == True:
+            canPass = True
+            break;
+
+    if canPass == False:
+        token = request.cookies.get('jwt_auth')
+        if token == None:
+            print("token is None, so redirect home page")
+            return redirect('/signin')
+        else:
+            decoded_tkn = jwt.decode(token, "secret", algorithms=["HS256"])
+            user = db.users.find_one({'_id': ObjectId(decoded_tkn['userId'])})
+            request.user = user
+    
+    
+def checkMatching(pr, path):
+    p = re.compile(pr)
+    ret = p.match(path)
+    if ret != None and ret.start() == 0:
+        return True
+    else:
+        return False
 # HTML
 
 @app.route('/')
 def home():
+    user = request.user
     return render_template('home.html')
 
 
@@ -45,7 +85,10 @@ def signup():
     if user != None:
         return render_template('signup.html', error='username', msg='username must not be duplicated.')
 
-    db.users.insert_one({'username': username, 'password': password})
+    pw = password.encode('utf-8')
+    hashed_pw = bcrypt.hashpw(pw, salt)
+
+    db.users.insert_one({'username': username, 'password': hashed_pw})
 
     return redirect('/')
 
@@ -65,7 +108,7 @@ def login():
         return render_template('signin.html', error='username', msg='Username is required')
 
     if password == None or password == '':
-        return render_template('signin.html', error='password', msg='Password is required')
+        return render_template('signin.html', username=username, error='password', msg='Password is required')
 
     # 인증
     user = db.users.find_one({'username': username})
@@ -74,12 +117,16 @@ def login():
         # error
         return render_template('signin.html', error='username', msg='this username not exists')
 
-    if user['password'] != password:
+    pw = password.encode("utf-8")
+    hashed_pw = bcrypt.hashpw(pw, user['password'])
+    print(hashed_pw)
+    
+    if user['password'] != hashed_pw:
         # error
         return render_template('signin.html', username=username,
                                error='password', msg='password is not valid')
 
-    encoded_jwt = jwt.encode({'userId': 'abc'}, "secret", algorithm="HS256")
+    encoded_jwt = jwt.encode({'userId': str(user['_id'])}, "secret", algorithm="HS256")
     print(encoded_jwt)
 
     resp = make_response(redirect('/'))
@@ -137,11 +184,38 @@ def create_problem():
     db.problems.insert_many(problems)
     return {"success": True}
 
-
+# 수정할 것
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
-    return 'quiz grading'
+    user = request.user
+    pids = request.get_json()['problems']
+    answers = request.get_json()['answers']
+    
+    poids = []
+    pidAnswerMapper = dict()
+    
+    for idx, id in enumerate(pids):
+        oid = ObjectId(id)
+        poids.append(oid)
+        pidAnswerMapper[oid] = answers[idx]
+        
+    problems = list(db.problems.find({'_id': {'$in': poids}}))
+    
+    solved_problems = []
+    correctCount = 0
+    
+    for p in problems:
+        answer = pidAnswerMapper[p['_id']]
+        correct = answer == p['answer']
+        
+        # 솔브드 프러블럼 추가
+        db.solvedProblems.insert_one({'problemId': p['_id'], 'userId': user['_id'], 'creator': p['createdBy'], 'answer': answer, 'corrrect': correct})
+        
+        p['_id'] = str(p['_id'])
+        solved_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})
+        correctCount += 1 if correct else 0
 
+    return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
