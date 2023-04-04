@@ -55,5 +55,32 @@ def login():
     return resp
 
 
+# Quiz APIs
+
+@app.route("/problems", methods=["GET"])
+def get_problems():
+    category = request.args.get('category')
+    count = request.args.get('count')
+
+    pipeline = [
+        {"$sample": {"$size": count}},
+        {"$match": {"category": category}}
+    ]
+
+    problems = db.problems.aggregate(pipeline)
+    return problems
+
+app.route('/problems', methods=["POST"])
+def create_problem():
+    problem_data = request.get_json()
+    db.problems.insert_one(problem_data)
+    return {"success": True}
+
+app.route('/solved_problems', methods=["POST"])
+def quiz_grading():
+    return 'quiz grading'
+    
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
