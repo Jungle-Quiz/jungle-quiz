@@ -13,7 +13,10 @@
         function signup() {
             let username = $('#username').val();
             let password = $('#password').val();
-            let pwcheck = $('#pwcheck').valu();
+            let pwcheck = $('#pwcheck').val();
+
+            // password 와 pwcheck 비교, 같으면 통과
+
             $.ajax({
                 url: 'http://localhost/signup',
                 method: 'post',
