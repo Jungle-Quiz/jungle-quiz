@@ -62,17 +62,16 @@ def get_problems():
     problems = db.problems.aggregate(pipeline)
     return problems
 
-app.route('/api/problems', methods=["POST"])
+@app.route('/api/problems', methods=["POST"])
 def create_problem():
+    return "test"
     problem_data = request.get_json()
     db.problems.insert_one(problem_data)
     return {"success": True}
 
-app.route('/api/solved_problems', methods=["POST"])
+@app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     return 'quiz grading'
-    
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
