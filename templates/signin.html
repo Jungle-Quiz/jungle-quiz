@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Long in Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script>
         function signin() {
@@ -31,80 +32,144 @@
 
         }
     </script> -->
-</head>
+  </head>
 
-<body class="bg-gray-100 h-screen">
+  <body class="bg-gray-100 h-screen">
     <div class="container mx-auto px-4 h-full flex justify-center items-center">
-        <form method="post" action="/signin" class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col">
-            <h1 class="text-center py-20 text-4xl">JUNGLE QUIZ</h1>
+      <form
+        method="post"
+        action="/signin"
+        class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col"
+      >
+        <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
+          Jungle Quiz
+        </h1>
+        {% if (error is none) or (error != 'username') %}
+        <div class="mb-4 flex">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-10 px-1 bg-slate-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
+          </svg>
+          <input
+            class="shadow outline-none appearance-none border w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+            {%
+            if
+            username
+            %}
+            value="{{username}}"
+            {%
+            endif
+            %}
+          />
+        </div>
+        {% endif %} {% if error == 'username' %}
+        <div class="mb-4 flex border-2 border-red-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-10 px-1 bg-slate-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
+          </svg>
+          <input
+            class="shadow outline-none appearance-none border w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %} {% if (error is none) or (error != 'password') %}
+        <div class="mb-4 flex">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-10 px-1 bg-slate-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+            />
+          </svg>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        {% endif %} {% if error == 'password' %}
+        <div class="mb-4 flex border-2 border-red-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-10 px-1 bg-slate-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+            />
+          </svg>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
 
-            {% if (error is none) or (error != 'username') %}
-            <div class="mb-4 flex">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-10 px-1 bg-slate-400">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-                <input class="shadow outline-none appearance-none border w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="username" name="username" type="text" placeholder="Enter your name" {% if username %}
-                    value="{{username}}" {% endif %}>
-            </div>
-            {% endif %}
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %}
 
-            {% if error == 'username' %}
-            <div class="mb-4 flex border-2 border-red-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-10 px-1 bg-slate-400">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-                <input class="shadow outline-none appearance-none border w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="username" name="username" type="text" placeholder="Enter your name">
-            </div>
-            <h2 class="mb-4 text-red-500"> {{ msg }} !! </h2>
-            {% endif %}
-
-            {% if (error is none) or (error != 'password') %}
-            <div class="mb-4 flex">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-10 px-1 bg-slate-400">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                </svg>
-                <input
-                    class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="password" name="password" type="password" placeholder="Enter your password">
-            </div>
-            {% endif %}
-
-            {% if error == 'password' %}
-            <div class="mb-4 flex border-2 border-red-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-10 px-1 bg-slate-400">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                </svg>
-                <input
-                    class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="password" name="password" type="password" placeholder="Enter your password">
-            </div>
-
-            <h2 class="mb-4 text-red-500"> {{ msg }} !! </h2>
-            {% endif %}
-
-            <div class="flex items-center justify-center my-12">
-                <a href="http://localhost:5050/signup"
-                    class="text-center w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded"
-                    type="button">
-                    SIGN UP
-                </a>
-                <button class="w-1/2 bg-slate-400 hover:bg-slate-700 text-black font-bold py-2 px-4 mx-2 rounded"
-                    type="submit">
-                    Sign in
-                </button>
-            </div>
-        </form>
+        <div class="my-12">
+          <div class="flex justify-center text-center mb-3">
+            <button
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+              type="submit"
+            >
+              로그인
+            </button>
+          </div>
+          <div>
+            계정이 없으신가요?
+            <a class="text-blue-500 hover:text-blue-700" href="/signup">
+              가입하기
+            </a>
+          </div>
+        </div>
+      </form>
     </div>
-</body>
-
+  </body>
 </html>
