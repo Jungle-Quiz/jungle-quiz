@@ -43,7 +43,7 @@ const handleAddQuizBtnClick = () => {
                 type="radio"
                 class="form-radio text-indigo-600"
                 name="radio-group-${quizNumber}"
-                value="option1"
+                value="0"
                 />
                 <input
                 type="text"
@@ -56,7 +56,7 @@ const handleAddQuizBtnClick = () => {
                 type="radio"
                 class="form-radio text-indigo-600"
                 name="radio-group-${quizNumber}"
-                value="option2"
+                value="1"
                 />
                 <input
                 type="text"
@@ -154,7 +154,7 @@ const checkMultipleChoiceList = () => {
   return multipleChoiceList;
 };
 
-const handleUploadQuizBtnClick = () => {
+const handleUploadQuizBtnClick = async () => {
   // 누락된 사항 체크
   const category = checkCategory();
   if (category === false) {
@@ -203,20 +203,13 @@ const handleUploadQuizBtnClick = () => {
 
   console.log(problems);
 
-  return;
-
-  // POST Request 보내기
-
-  $.ajax({
-    url: "/api/problems",
-    data: { problems },
-    type: "POST",
-    dataType: "json",
-    success: function (response) {
-      alert("문제를 성공적으로 생성하였습니다");
-      location.href = "/";
-    },
-  });
+  try {
+    await axios.post("/api/problems", { problems });
+    alert("문제를 성공적으로 생성하였습니다");
+    location.href = "/";
+  } catch (err) {
+    alert(err);
+  }
 };
 
 addQuizBtn.on("click", handleAddQuizBtnClick);
