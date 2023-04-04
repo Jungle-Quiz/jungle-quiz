@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Long in Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script>
+        function login() {
+            let username = $('#username').val();
+            let password = $('#password').val();
+            $.ajax({
+                url: 'http://localhost/login',
+                method: 'post',
+                data: { 'username': username, 'password': password },
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        alert('로그인 완료!');
+                        window.location.href = '/';
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+
+        }
+    </script>
 </head>
 
 <body class="bg-gray-100 h-screen">
@@ -38,7 +63,7 @@
                     SIGN UP
                 </a>
                 <button class="w-1/2 bg-slate-400 hover:bg-slate-700 text-black font-bold py-2 px-4 mx-2 rounded"
-                    type="button">
+                    type="button" onclick="login()">
                     LOG IN
                 </button>
             </div>
