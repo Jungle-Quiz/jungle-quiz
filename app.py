@@ -15,7 +15,6 @@ db = client.junglequiz
 
 # HTML
 
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -93,7 +92,7 @@ def editor():
     return render_template('quiz-editor.html')
 
 
-@app.route('/test')
+@app.route('/quiz')
 def quiz():
     return render_template('quiz.html')
 
