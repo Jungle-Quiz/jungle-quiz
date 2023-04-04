@@ -13,23 +13,10 @@ load_dotenv()
 client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
-# HTML을 렌더
+# HTML
 @app.route('/')
 def home():
     return render_template('home.html')
-
-
-@app.route('/new-quiz')
-def editor():
-    return render_template('quiz-editor.html')
-
-# GET API
-@app.route('/test', methods=['GET'])
-def test_get():
-    title_receive = request.args.get('title_give')
-    print(title_receive)
-    return jsonify({'result': 'success', 'msg': '이 요청은 GET'})
-
 
 @app.route('/signup', methods=['GET'])
 def getSignupPage():
@@ -40,8 +27,13 @@ def getSignupPage():
 def getLoginPage():
     return render_template('signin.html')
 
+@app.route('/new-quiz')
+def editor():
+    return render_template('quiz-editor.html')
 
-@app.route('/signin', methods=['POST'])
+# User APIs
+
+@app.route('/api/signin', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
@@ -54,6 +46,32 @@ def login():
 
     return resp
 
+
+# Quiz APIs
+
+@app.route("/api/problems", methods=["GET"])
+def get_problems():
+    category = request.args.get('category')
+    count = request.args.get('count')
+
+    pipeline = [
+        {"$sample": {"$size": count}},
+        {"$match": {"category": category}}
+    ]
+
+    problems = db.problems.aggregate(pipeline)
+    return problems
+
+@app.route('/api/problems', methods=["POST"])
+def create_problem():
+    return "test"
+    problem_data = request.get_json()
+    db.problems.insert_one(problem_data)
+    return {"success": True}
+
+@app.route('/api/solved_problems', methods=["POST"])
+def quiz_grading():
+    return 'quiz grading'
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
