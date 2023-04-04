@@ -142,14 +142,17 @@ const checkTitles = () => {
 const checkMultipleChoiceList = () => {
   const multipleChoiceList = $(".multiple-choice");
 
-  isAllInputsFilled = true;
-  isRadioChecked = false;
+  let isAllInputsFilled = true;
+  let isAnswerChecked = false;
 
   multipleChoiceList.each(function () {
     const radios = $(this).find("input[type='radio']");
     const inputs = $(this).find("input[type='text']");
 
+    let isRadioChecked = false;
+
     for (let i = 0; i < radios.length; i++) {
+      console.log(radios[i].checked);
       if (radios[i].checked === true) {
         isRadioChecked = true;
       }
@@ -168,7 +171,8 @@ const checkMultipleChoiceList = () => {
       return false;
     }
   });
-  if (isRadioChecked === false) {
+
+  if (isAnswerChecked === false) {
     return false;
   }
 
@@ -191,7 +195,7 @@ const handleUploadQuizBtnClick = async () => {
   }
 
   const multipleChoiceList = checkMultipleChoiceList();
-  console.log(multipleChoiceList);
+
   if (multipleChoiceList === false) {
     return;
   }
