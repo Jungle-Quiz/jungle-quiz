@@ -102,7 +102,7 @@ def login():
         return render_template('signin.html', error='username', msg='Username is required')
 
     if password == None or password == '':
-        return render_template('signin.html', error='password', msg='Password is required')
+        return render_template('signin.html', username=username, error='password', msg='Password is required')
 
     # 인증
     user = db.users.find_one({'username': username})
@@ -176,23 +176,34 @@ def create_problem():
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     user = request.user
-    problem_ids = request.get_json()['problems']
+    pids = request.get_json()['problems']
     answers = request.get_json()['answers']
-
-    solved_problem_ids = []
-    for idx, problem_id in enumerate(problem_ids):
-        problem = db.problems.find_one({"_id": ObjectId(problem_id)})
-
-        solved_problem = {
-            "user": ObjectId(user["_id"]),
-            "problem": ObjectId(problem_id),
-            "answer": answers[idx],
-            "creator": ObjectId(problem['user'])
-        }
-        db.solved_problems.insert_one(solved_problem)
     
-    return { solved_problem_ids }
+    poids = []
+    pidAnswerMapper = dict()
+    
+    for idx, id in enumerate(pids):
+        oid = ObjectId(id)
+        poids.append(oid)
+        pidAnswerMapper[oid] = answers[idx]
+        
+    problems = list(db.problems.find({'_id': {'$in': poids}}))
+    
+    solved_problems = []
+    correctCount = 0
+    
+    for p in problems:
+        answer = pidAnswerMapper[p['_id']]
+        correct = answer == p['answer']
+        
+        # 솔브드 프러블럼 추가
+        db.solvedProblems.insert_one({'problemId': p['_id'], 'userId': user['_id'], 'creator': p['createdBy'], 'answer': answer, 'corrrect': correct})
+        
+        p['_id'] = str(p['_id'])
+        solved_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})
+        correctCount += 1 if correct else 0
 
+    return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5050, debug=True)
