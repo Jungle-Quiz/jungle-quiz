@@ -6,11 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Long in Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function signin() {
+
+            let username = $('#username').val();
+            let password = $('#password').val();
+            console.log(username + " , " + password)
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:5050/signin',
+                data: { 'username': username, 'password': password },
+                success: function (response) {
+                    console.log(response);
+                    window.location.href = '/';
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+
+        }
+    </script>
 </head>
 
 <body class="bg-gray-100 h-screen">
     <div class="container mx-auto px-4 h-full flex justify-center items-center">
-        <div class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+        <div class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col">
             <h1 class="text-center py-20 text-4xl">JUNGLE QUIZ</h1>
             <div class="mb-4 flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -32,14 +57,14 @@
                     id="password" type="password" placeholder="Enter your password">
             </div>
             <div class="flex items-center justify-center my-12">
-                <a href="http://localhost:8080/signup"
+                <a href="http://localhost:5050/signup"
                     class="text-center w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded"
                     type="button">
                     SIGN UP
                 </a>
                 <button class="w-1/2 bg-slate-400 hover:bg-slate-700 text-black font-bold py-2 px-4 mx-2 rounded"
-                    type="button">
-                    LOG IN
+                    type="button" onclick="signin()">
+                    Sign in
                 </button>
             </div>
         </div>
