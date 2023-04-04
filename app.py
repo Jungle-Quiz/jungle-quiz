@@ -31,7 +31,16 @@ def getLoginPage():
 def editor():
     return render_template('quiz-editor.html')
 
+@app.route('/test')
+def quiz():
+    return render_template('quiz.html')
+
+@app.route('/result')
+def result():
+    return render_template('submit.html')
+
 # User APIs
+
 
 @app.route('/api/signin', methods=['POST'])
 def login():
