@@ -185,22 +185,17 @@ def quiz_grading():
     for idx, id in enumerate(pids):
         oid = ObjectId(id)
         poids.append(oid)
-        pidAnswerMapper[oid] = answers[idx]
+        pidAnswerMapper[id] = answers[idx]
         
-    
-    print(poids)
-    print(pidAnswerMapper)
-    
     problems = list(db.problems.find({'_id': {'$in': poids}}))
     
     solved_problems = []
     
     for p in problems:
-        answer = pidAnswerMapper[p['_id']]
         p['_id'] = str(p['_id'])
+        answer = pidAnswerMapper[p['_id']]
         solved_problems.append({'problem': json.dumps(p), 'answer' : answer, 'correct' : answer == p['answer']})
 
-    
     return jsonify(solved_problems)
 
 
