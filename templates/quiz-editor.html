@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>정글퀴즈</title>
+  </head>
+  <body>
+    <div class="w-96 mx-auto">
+      <h1 class="text-2xl text-center mb-10">Jungle Quiz</h1>
+      <div id="quiz-container">
+        <div>
+          <select
+            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="select"
+          >
+            <option>카테고리</option>
+            <option>파이썬</option>
+            <option>자료구조/알고리즘</option>
+            <option>운영체제</option>
+            <option>컴퓨터시스템</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <div class="mb-3">
+            <label class="block text-gray-700 font-bold mb-2" for="textarea">
+              Enter your message:
+            </label>
+            <textarea
+              placeholder="문제를 입력해주세요."
+              class="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="textarea"
+              rows="4"
+            ></textarea>
+          </div>
+          <div class="flex flex-col">
+            <div class="block text-gray-700 font-bold mb-2">
+              보기를 입력하고 정답을 체크해주세요
+            </div>
+            <label class="inline-flex items-center mt-3">
+              <input
+                type="radio"
+                class="form-radio text-indigo-600"
+                name="radio-group"
+                value="option1"
+              />
+              <input
+                type="text"
+                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                placeholder="Enter your text here"
+              />
+            </label>
+            <label class="inline-flex items-center mt-3">
+              <input
+                type="radio"
+                class="form-radio text-indigo-600"
+                name="radio-group"
+                value="option2"
+              />
+              <input
+                type="text"
+                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                placeholder="Enter your text here"
+              />
+            </label>
+            <label class="inline-flex items-center mt-3">
+              <input
+                type="radio"
+                class="form-radio text-indigo-600"
+                name="radio-group"
+                value="option3"
+              />
+              <input
+                type="text"
+                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                placeholder="Enter your text here"
+              />
+            </label>
+            <label class="inline-flex items-center mt-3">
+              <input
+                type="radio"
+                class="form-radio text-indigo-600"
+                name="radio-group"
+                value="option3"
+              />
+              <input
+                type="text"
+                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                placeholder="Enter your text here"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      <hr class="border-t-2 border-gray-300 my-8" />
+      <div class="flex justify-center mb-2">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          퀴즈 추가
+        </button>
+      </div>
+      <div class="flex justify-center mb-2">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          출제 하기
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

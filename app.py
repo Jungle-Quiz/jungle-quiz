@@ -6,6 +6,10 @@ app = Flask(__name__)
 def home():
    return render_template('home.html')
 
+@app.route('/new-quiz')
+def editor():
+   return render_template('quiz-editor.html')
+
 # GET API
 @app.route('/test', methods=['GET'])
 def test_get():
