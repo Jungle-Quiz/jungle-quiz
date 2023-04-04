@@ -13,8 +13,6 @@ load_dotenv()
 client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
-db.users.insert_one({'name': 'bobby'})
-
 # HTML을 렌더
 @app.route('/')
 def home():
