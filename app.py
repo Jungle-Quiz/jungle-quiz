@@ -1,8 +1,10 @@
 from flask import Flask, render_template, jsonify, request, make_response, redirect
 from pymongo import MongoClient
+from bson import ObjectId
 from dotenv import load_dotenv
 import os
 import jwt
+import re
 
 app = Flask(__name__)
 
@@ -13,10 +15,46 @@ load_dotenv()
 client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
+
+permitAllResources = ['/static/*', '/signin', '/signup']
+
+@app.before_request
+def before_request():
+    path = request.path
+    print(path)
+    
+    canPass = False
+
+    for pr in permitAllResources:
+        if checkMatching(pr, path) == True:
+            canPass = True
+            break;
+
+    if canPass == False:
+        token = request.cookies.get('jwt_auth')
+        if token == None:
+            print("token is None, so redirect home page")
+            return redirect('/signin')
+        else:
+            decoded_tkn = jwt.decode(token, "secret", algorithms=["HS256"])
+            print(decoded_tkn)
+            user = db.users.find_one({'_id': ObjectId(decoded_tkn['userId'])})
+            request.user = user
+    
+    
+def checkMatching(pr, path):
+    p = re.compile(pr)
+    ret = p.match(path)
+    if ret != None and ret.start() == 0:
+        return True
+    else:
+        return False
 # HTML
 
 @app.route('/')
 def home():
+    user = request.user
+    print(user)
     return render_template('home.html')
 
 
@@ -79,7 +117,7 @@ def login():
         return render_template('signin.html', username=username,
                                error='password', msg='password is not valid')
 
-    encoded_jwt = jwt.encode({'userId': 'abc'}, "secret", algorithm="HS256")
+    encoded_jwt = jwt.encode({'userId': str(user['_id'])}, "secret", algorithm="HS256")
     print(encoded_jwt)
 
     resp = make_response(redirect('/'))
