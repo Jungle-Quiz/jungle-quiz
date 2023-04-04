@@ -9,7 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script>
         function signup() {
             let username = $('#username').val();
             let password = $('#password').val();
@@ -34,44 +35,116 @@
             });
 
         }
+    </script> -->
+    <script>
+        function signup() {
+            let username = $('#username').val();
+            let password = $('#password').val();
+            let pwcheck = $('#pwcheck').val();
+
+            // password 와 pwcheck 비교, 같으면 통과
+
+            $.ajax({
+                url: 'http://localhost:5050/signup',
+                method: 'post',
+                data: { 'username': username, 'password': password, 'pwcheck': pwcheck },
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        alert('회원가입 완료!');
+                        window.location.href = '/';
+                    } else {
+                        $('').html(response)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        }
     </script>
 </head>
 
 <body class="bg-gray-100 h-screen">
     <div class="container mx-auto px-4 h-full flex justify-center items-center">
-        <div class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+        <form action="/signup" method="post" class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
             <h1 class="text-center py-20 text-4xl">JUNGLE QUIZ</h1>
+
+            {% if (error is none) or (error != 'username') %}
             <div class="mb-8 flex">
                 <label class="block font-normal text-gray-700 font-bold m-2" for="username">
                     username:
                 </label>
                 <input
                     class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="username" type="text" placeholder="Enter your name">
+                    id="username" name="username" type="text" placeholder="Enter your name">
             </div>
+            {% endif %}
+
+            {% if error == 'username' %}
+            <div class="mb-8 flex">
+                <label class="block font-normal text-gray-700 font-bold m-2" for="username">
+                    username:
+                </label>
+                <input
+                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                    id="username" name="username" type="text" placeholder="Enter your name">
+            </div>
+            <h2 class="mb-4 text-red-500"> {{ msg }} !! </h2>
+            {% endif %}
+
+            {% if (error is none) or (error != 'password') %}
             <div class="mb-8 flex">
                 <label class="block font-normal text-gray-700 font-bold m-2 " for="password">
                     password:
                 </label>
                 <input
                     class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="password" type="password" placeholder="Enter your password">
+                    id="password" name="password" type="password" placeholder="Enter your password">
             </div>
+            {% endif %}
+
+            {% if error == 'password' %}
+            <div class="mb-8 flex">
+                <label class="block font-normal text-gray-700 font-bold m-2 " for="password">
+                    password:
+                </label>
+                <input
+                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                    id="password" name="password" type="password" placeholder="Enter your password">
+            </div>
+            <h2 class="mb-4 text-red-500"> {{ msg }} !! </h2>
+            {% endif %}
+
+            {% if (error is none) or (error != 'pwcheck') %}
             <div class="mb-8 flex">
                 <label class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2 " for="password">
                     pw check:
                 </label>
                 <input
                     class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="pwcheck" type="password" placeholder="Check your password">
+                    id="pwcheck" name="pwcheck" type="password" placeholder="Check your password">
             </div>
+            {% endif %}
+
+            {% if error == 'pwcheck' %}
+            <div class="mb-8 flex ">
+                <label class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2 " for="password">
+                    pw check:
+                </label>
+                <input
+                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                    id="pwcheck" name="pwcheck" type="password" placeholder="Check your password">
+            </div>
+            <h2 class="mb-4 text-red-500"> {{ msg }} !! </h2>
+            {% endif %}
+
             <div class="flex items-center justify-center my-12">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button"
-                    onclick="signup()">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
                     Sign Up
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 
