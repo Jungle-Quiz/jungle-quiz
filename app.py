@@ -168,14 +168,7 @@ def get_problems():
 
 @app.route('/api/problems', methods=["POST"])
 def create_problem():
-    print(request.user)
-    print(request.user["_id"])
-    user_id = request.user["_id"]
     problems = request.get_json()['problems']
-    
-    for problem in problems:
-        problem['user'] = user_id
-
     db.problems.insert_many(problems)
     return {"success": True}
 
