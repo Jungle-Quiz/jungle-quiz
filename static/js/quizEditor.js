@@ -2,6 +2,7 @@ const quizContainer = $("#quiz-container");
 const addQuizBtn = $("#add-quiz");
 const uploadQuizBtn = $("#upload-quiz-btn");
 const addContentBtn = $("#add-multiple-choice-btn");
+const removeContentBtns = $(".remove-content-btn");
 const categorySelect = $("#category");
 
 let quizNumber = 1;
@@ -18,6 +19,20 @@ const handleRemoveQuizBtnClick = (event) => {
   hrElement.remove();
 };
 
+const handleRemoveContentBtnClick = (event) => {
+  const btn = $(event.currentTarget);
+  const contentElement = btn.parent();
+  const contentContainer = contentElement.parent();
+  const labelElements = contentContainer.children("label");
+
+  if (labelElements.length === 2) {
+    alert("보기는 최소 2개 이상이어야 합니다.");
+    return;
+  }
+
+  contentElement.remove();
+};
+
 const handleAddContentBtnClick = (event) => {
   const btn = $(event.currentTarget);
   const contentContainer = btn.parent().prev();
@@ -25,14 +40,18 @@ const handleAddContentBtnClick = (event) => {
 
   console.log(contentContainer);
 
-  const radioValue =
-    parseInt(radioElements[radioElements.length - 1].getAttribute("value")) + 1;
   const radioName = radioElements[0].getAttribute("name");
 
   const contentHTML = `
     <label class="inline-flex items-center mt-3 w-full">
-      <input type="radio" class="form-radio text-indigo-600" name="${radioName}" value="${radioValue}">
+      <input type="radio" class="form-radio text-indigo-600" name="${radioName}">
       <input type="text" class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="보기를 입력해주세요">
+      <button
+        onclick="handleRemoveContentBtnClick(event)"
+        class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
+      >
+        ❌
+      </button>
     </label>
   `;
 
@@ -64,26 +83,36 @@ const handleAddQuizBtnClick = () => {
               type="radio"
               class="form-radio text-indigo-600"
               name="radio-group-${quizNumber}"
-              value="0"
             />
             <input
               type="text"
               class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               placeholder="보기를 입력해주세요"
             />
+            <button
+              onclick="handleRemoveContentBtnClick(event)"
+              class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
+            >
+              ❌
+            </button>
           </label>
           <label class="inline-flex items-center mt-3 w-full">
             <input
               type="radio"
               class="form-radio text-indigo-600"
               name="radio-group-${quizNumber}"
-              value="1"
             />
             <input
               type="text"
               class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               placeholder="보기를 입력해주세요"
             />
+            <button
+              onclick="handleRemoveContentBtnClick(event)"
+              class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
+            >
+              ❌
+            </button>
           </label>
         </div>
         <div class="flex justify-center mb-2 mt-3">
@@ -143,7 +172,7 @@ const checkMultipleChoiceList = () => {
   const multipleChoiceList = $(".multiple-choice");
 
   let isAllInputsFilled = true;
-  let isAnswerChecked = false;
+  let isAnswerChecked = true;
 
   multipleChoiceList.each(function () {
     const radios = $(this).find("input[type='radio']");
@@ -152,7 +181,6 @@ const checkMultipleChoiceList = () => {
     let isRadioChecked = false;
 
     for (let i = 0; i < radios.length; i++) {
-      console.log(radios[i].checked);
       if (radios[i].checked === true) {
         isRadioChecked = true;
       }
@@ -162,6 +190,7 @@ const checkMultipleChoiceList = () => {
     }
 
     if (isRadioChecked === false) {
+      isAnswerChecked = false;
       alert("정답이 선택되지 않은 문제가 있습니다.");
       return false;
     }
@@ -184,21 +213,27 @@ const checkMultipleChoiceList = () => {
 
 const handleUploadQuizBtnClick = async () => {
   // 누락된 사항 체크
+
   const category = checkCategory();
   if (category === false) {
     return;
   }
+  console.log("A");
 
   const titles = checkTitles();
   if (titles === false) {
     return;
   }
 
+  console.log("B");
+
   const multipleChoiceList = checkMultipleChoiceList();
 
   if (multipleChoiceList === false) {
     return;
   }
+
+  console.log("C");
 
   // 입력된 데이터를 request body 형식에 맞춰 변형
 
@@ -208,9 +243,9 @@ const handleUploadQuizBtnClick = async () => {
     const inputs = $(multipleChoiceList[i]).find("input[type='text']");
 
     let answer;
-    radios.each(function () {
+    radios.each(function (index) {
       if (this.checked) {
-        answer = this.value;
+        answer = index;
       }
     });
 
@@ -243,3 +278,6 @@ const handleUploadQuizBtnClick = async () => {
 addQuizBtn.on("click", handleAddQuizBtnClick);
 addContentBtn.on("click", handleAddContentBtnClick);
 uploadQuizBtn.on("click", handleUploadQuizBtnClick);
+removeContentBtns.each(function () {
+  $(this).on("click", handleRemoveContentBtnClick);
+});
