@@ -179,30 +179,26 @@ def create_problem():
     db.problems.insert_many(problems)
     return {"success": True}
 
+# 수정할 것
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     user = request.user
-    pids = request.get_json()['problems']
+    problem_ids = request.get_json()['problems']
     answers = request.get_json()['answers']
-    
-    poids = []
-    pidAnswerMapper = dict()
-    
-    for idx, id in enumerate(pids):
-        oid = ObjectId(id)
-        poids.append(oid)
-        pidAnswerMapper[id] = answers[idx]
-        
-    problems = list(db.problems.find({'_id': {'$in': poids}}))
-    
-    solved_problems = []
-    
-    for p in problems:
-        p['_id'] = str(p['_id'])
-        answer = pidAnswerMapper[p['_id']]
-        solved_problems.append({'problem': json.dumps(p), 'answer' : answer, 'correct' : answer == p['answer']})
 
-    return jsonify(solved_problems)
+    solved_problem_ids = []
+    for idx, problem_id in enumerate(problem_ids):
+        problem = db.problems.find_one({"_id": ObjectId(problem_id)})
+
+        solved_problem = {
+            "user": ObjectId(user["_id"]),
+            "problem": ObjectId(problem_id),
+            "answer": answers[idx],
+            "creator": ObjectId(problem['user'])
+        }
+        db.solved_problems.insert_one(solved_problem)
+    
+    return { solved_problem_ids }
 
 
 if __name__ == '__main__':
