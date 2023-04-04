@@ -1,6 +1,7 @@
 const quizContainer = $("#quiz-container");
 const addQuizBtn = $("#add-quiz");
 const uploadQuizBtn = $("#upload-quiz-btn");
+const categorySelect = $("#category");
 
 const handleRemoveQuizBtnClick = (event) => {
   const result = confirm("해당 퀴즈를 삭제하시겠습니까?");
@@ -101,4 +102,32 @@ const handleAddQuizBtnClick = () => {
   quizContainer.append(html);
 };
 
+const handleUploadQuizBtnClick = () => {
+  // 누락된 사항 체크
+  const selectedValue = categorySelect.val();
+  if (selectedValue === "카테고리") {
+    alert("퀴즈의 카테고리를 선택해주세요");
+    categorySelect.focus();
+    return;
+  }
+
+  const textareas = $("textarea");
+  let checkTextarea = true;
+  textareas.each(function () {
+    if ($(this).val() === "") {
+      $(this).focus();
+      alert("퀴즈의 제목을 입력해주세요");
+      checkTextarea = false;
+      return false;
+    }
+  });
+  if (checkTextarea === false) {
+    return;
+  }
+
+  // 입력된 데이터를 request body 형식에 맞춰 변형
+  // POST Request 보내기
+};
+
 addQuizBtn.on("click", handleAddQuizBtnClick);
+uploadQuizBtn.on("click", handleUploadQuizBtnClick);
