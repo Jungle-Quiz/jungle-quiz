@@ -184,7 +184,7 @@ def quiz_grading():
     for idx, id in enumerate(pids):
         oid = ObjectId(id)
         poids.append(oid)
-        pidAnswerMapper[id] = answers[idx]
+        pidAnswerMapper[oid] = answers[idx]
         
     problems = list(db.problems.find({'_id': {'$in': poids}}))
     
@@ -192,12 +192,16 @@ def quiz_grading():
     correctCount = 0
     
     for p in problems:
-        p['_id'] = str(p['_id'])
         answer = pidAnswerMapper[p['_id']]
-        solved_problems.append({'problem': p, 'answer' : answer, 'correct' : answer == p['answer']})
-        correctCount += 1 if answer == p['answer'] else 0
+        correct = answer == p['answer']
+        
+        # 솔브드 프러블럼 추가
+        db.solvedProblems.insert_one({'problemId': p['_id'], 'userId': user['_id'], 'creator': p['createdBy'], 'answer': answer, 'corrrect': correct})
+        
+        p['_id'] = str(p['_id'])
+        solved_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})
+        correctCount += 1 if correct else 0
 
-    # return jsonify(solved_problems)
     return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
 
 
