@@ -1,5 +1,20 @@
 const quizContainer = $("#quiz-container");
 const addQuizBtn = $("#add-quiz");
+const uploadQuizBtn = $("#upload-quiz-btn");
+
+const handleRemoveQuizBtnClick = (event) => {
+  const result = confirm("해당 퀴즈를 삭제하시겠습니까?");
+  if (result === false) {
+    return;
+  }
+  const btn = $(event.currentTarget);
+  const quizElement = btn.parent().parent();
+  const hrElement = quizElement.prev();
+  quizElement.remove();
+  hrElement.remove();
+};
+
+$(".quiz-remove-btn").on("click", handleRemoveQuizBtnClick);
 
 const handleAddQuizBtnClick = () => {
   const html = `
@@ -30,7 +45,7 @@ const handleAddQuizBtnClick = () => {
             <input
             type="text"
             class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="Enter your text here"
+            placeholder="1번 보기를 입력해주세요"
             />
         </label>
         <label class="inline-flex items-center mt-3">
@@ -43,7 +58,7 @@ const handleAddQuizBtnClick = () => {
             <input
             type="text"
             class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="Enter your text here"
+            placeholder="2번 보기를 입력해주세요"
             />
         </label>
         <label class="inline-flex items-center mt-3">
@@ -56,7 +71,7 @@ const handleAddQuizBtnClick = () => {
             <input
             type="text"
             class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="Enter your text here"
+            placeholder="3번 보기를 입력해주세요"
             />
         </label>
         <label class="inline-flex items-center mt-3">
@@ -69,10 +84,18 @@ const handleAddQuizBtnClick = () => {
             <input
             type="text"
             class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="Enter your text here"
+            placeholder="4번 보기를 입력해주세요"
             />
         </label>
         </div>
+        <div class="flex justify-end">
+            <button
+              class="quiz-remove-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+              onclick="handleRemoveQuizBtnClick(event)"
+            >
+              문제 제거
+            </button>
+          </div>
     </div>`;
 
   quizContainer.append(html);
