@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>*quiz*</title>
+
+
+  </head>
+  <body class="bg-gray-100 h-screen">
+    <div class="container mx-auto px-4 h-full flex justify-center items-center">
+        <div class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col">
+            <div id="category" class="py-10 height-1rm border-0">
+                <h2 id="category" class="text-3xl text-left font-bold box-shadow">카테고리</h2>
+            </div>
+            <div class="box">
+                <h3 class="text-left text-xl font-bold">Q.1</h3>
+                <div>
+                    <p class="text-lg font-bold">문제-------</p>
+                    <ul style="list-style:none" class="text-base list-disc">
+                        <li>&#9312 보기를 입력해주세요
+                            <input
+                            type="radio"
+                            class="form-radio text-indigo-600"
+                            name="radio-group"
+                            value="option1"
+                            />
+                        </li>
+                        <li>&#9313 보기를 입력해주세요
+                            <input
+                            type="radio"
+                            class="form-radio text-indigo-600"
+                            name="radio-group"
+                            value="option2"
+                            />
+                        </li>
+                        <li>&#9314 보기를 입력해주세요
+                            <input
+                            type="radio"
+                            class="form-radio text-indigo-600"
+                            name="radio-group"
+                            value="option3"
+                            />
+                        </li>
+                    </ul>
+                    <hr class="border-t-2 my-5" />
+                </div>
+            </div>
+            <div class="flex justify-center mb-2">
+                <button id="submit" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-white bg-gray-700/50 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">제출하기</button>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
