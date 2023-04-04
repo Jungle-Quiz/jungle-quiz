@@ -1,10 +1,21 @@
 from flask import Flask, render_template, jsonify, request, make_response
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
 import jwt
+
 app = Flask(__name__)
 
-# HTML을 렌더하는 방법
+# .env파일 로드
+load_dotenv()
 
+# DB 연결
+client = MongoClient(os.getenv('MONGO_URL'), 27017)
+db = client.junglequiz
 
+db.users.insert_one({'name': 'bobby'})
+
+# HTML을 렌더
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -15,8 +26,6 @@ def editor():
     return render_template('quiz-editor.html')
 
 # GET API
-
-
 @app.route('/test', methods=['GET'])
 def test_get():
     title_receive = request.args.get('title_give')
