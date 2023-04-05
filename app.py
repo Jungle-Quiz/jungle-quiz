@@ -69,7 +69,8 @@ def home():
                 '_id': '$category',
                 'count': {'$sum': 1}
             } 
-        }
+        },
+        { '$sort': { 'count': -1 } }
     ]
     problems = list(db.problems.aggregate(pipeline))
     
