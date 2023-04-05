@@ -146,7 +146,7 @@ def quiz():
 
 @app.route('/result')
 def result():
-    return render_template('submit.html')
+    return render_template('quiz-result.html')
 
 # User APIs
 
@@ -207,9 +207,6 @@ def quiz_grading():
     for p in problems:
         answer = pidAnswerMapper[p['_id']]
         correct = answer == p['answer']
-        
-        # 솔브드 프러블럼 추가
-        db.solvedProblems.insert_one({'problemId': p['_id'], 'userId': user['_id'], 'creator': p['createdBy'], 'answer': answer, 'corrrect': correct})
         
         p['_id'] = str(p['_id'])
         solved_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})

@@ -95,8 +95,17 @@ const handleSubmit = async () => {
 
   try {
     // post 요청보내기
+    const res = await axios.post("/api/solved_problems", {
+      problems: problemIdList,
+      answers: answerList,
+    });
+
+    document.querySelector("html").innerHTML = res.data;
+
+    localStorage.setItem("quiz_result", res.data);
+    location.href = "/result";
   } catch (err) {
-    aleret(err);
+    alert(err);
   }
 
   // 전부 풀었는지 체크
