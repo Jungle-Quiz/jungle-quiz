@@ -21,12 +21,18 @@ client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
 
-permitAllResourcesString = ['/static/*', '/signin', '/signup']
+permitAllResourcesString = ['/static/*', '/signin', '/signup', '/logout']
 permitAllResourcesPattern = []
 
 @app.before_request
 def before_request():
     path = request.path
+    
+    if path == '/logout':
+        print('logout!!')
+        resp = make_response(redirect('/login'))
+        resp.delete_cookie('jwt_auth')
+        return resp
     
     canPass = False
 
@@ -108,8 +114,8 @@ def getLoginPage():
 @app.route('/signin', methods=['POST'])
 def login():
     # validation
-    username = request.form['username'].stip()
-    password = request.form['password'].stip()
+    username = request.form['username'].strip()
+    password = request.form['password'].strip()
 
     if username == None or username == '':
         return render_template('signin.html', error='username', msg='Username is required')
