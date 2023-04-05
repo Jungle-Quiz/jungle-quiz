@@ -4,44 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>*score*</title>
+    <title>퀴즈결과 - 정글퀴즈</title>
   </head>
 
-  <body class="bg-gray-100 h-screen">
-    <div class="container mx-auto px-4 h-full flex justify-center items-center">
-      <div
-        class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col"
-      >
-        <div id="score" class="flex justify-center mb-2 p-10">
-          <h2 class="whitespace-pre-line text-5xl text-rose-500/50">
-            {{correctCount}}
-          </h2>
-          <h2 class="text-2xl mt-5">/{{total}}</h2>
+  <body>
+    <div class="w-96 mx-auto mt-10 pb-96">
+      <div>
+        <div class="text-4xl">
+          <span>결과: </span>
+          <span class="text-green-500">{{correctCount}}</span>
+          <span>/ {{total}}</span>
+        </div>
+        <div class="flex justify-center text-center my-6">
+          <a
+            href="/"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+            >메인화면으로</a
+          >
         </div>
         <div>
-          <h2 class="text-2xl font-bold italic">Review</h2>
-
           <!-- 반복되는 box << 이거를 solved_problems로 채울 것 -->
           {% for solved_problem in solved_problems %}
-          <div class="box my-3">
-            {% if solved_problem.correct == False %}
-            <h3 class="text-left font-bold text-rose-500/50">
-              Q.{{loop.index}}
-            </h3>
-            {% endif %} {% if solved_problem.correct == True %}
-            <h3 class="text-left font-bold">Q.{{loop.index}}</h3>
-            {% endif %}
-
+          <div class="box my-8">
             <div>
-              <p class="text-lg font-bold">{{solved_problem.problem.title}}</p>
+              <p class="text-lg font-bold pb-3">
+                Q{{loop.index}}. {{solved_problem.problem.title}}
+              </p>
               <ul style="list-style: none" class="list-disc">
                 {% for bogi in solved_problem.problem.content %}
                 <li>{{loop.index}}. {{bogi}}</li>
                 {% endfor %}
               </ul>
-              <div class="flex flex-row">
+              <div class="flex flex-row pt-3">
                 {% if solved_problem.correct == False %}
-                <p class="pe-9 text-rose-500/50">
+                <p class="pe-9 text-green-500">
                   정답 : {{solved_problem.problem.answer}}
                 </p>
                 {% endif %} {% if solved_problem.correct == True %}
@@ -54,7 +50,13 @@
           </div>
           {% endfor %}
         </div>
-        <a style="text-align: center" href="/">home</a>
+        <div class="flex justify-center text-center">
+          <a
+            href="/"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+            >메인화면으로</a
+          >
+        </div>
       </div>
     </div>
   </body>

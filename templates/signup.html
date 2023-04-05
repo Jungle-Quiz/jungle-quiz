@@ -1,90 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up Page</title>
+    <title>회원가입 - 정글퀴즈</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+  </head>
 
-<body class="bg-gray-100 h-screen">
+  <body class="bg-gray-100 h-screen">
     <div class="container mx-auto px-4 h-full flex justify-center items-center">
-        <form action="/signup" method="post" class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-            <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
-                Jungle Quiz
-            </h1>
-            {% if (error is none) or (error != 'username') %}
-            <div class="mb-8 flex">
-                <label class="block font-normal text-gray-700 font-bold m-2" for="username">
-                    username:
-                </label>
-                <input
-                    class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="username" name="username" type="text" placeholder="Enter your name" />
-            </div>
-            {% endif %} {% if error == 'username' %}
-            <div class="mb-8 flex">
-                <label class="block font-normal text-gray-700 font-bold m-2" for="username">
-                    username:
-                </label>
-                <input
-                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="username" name="username" type="text" placeholder="Enter your name" />
-            </div>
-            <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
-            {% endif %} {% if (error is none) or (error != 'password') %}
-            <div class="mb-8 flex">
-                <label class="block font-normal text-gray-700 font-bold m-2" for="password">
-                    password:
-                </label>
-                <input
-                    class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="password" name="password" type="password" placeholder="Enter your password" />
-            </div>
-            {% endif %} {% if error == 'password' %}
-            <div class="mb-8 flex">
-                <label class="block font-normal text-gray-700 font-bold m-2" for="password">
-                    password:
-                </label>
-                <input
-                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="password" name="password" type="password" placeholder="Enter your password" />
-            </div>
-            <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
-            {% endif %} {% if (error is none) or (error != 'pwcheck') %}
-            <div class="mb-8 flex">
-                <label class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2" for="password">
-                    pw check:
-                </label>
-                <input
-                    class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="pwcheck" name="pwcheck" type="password" placeholder="Check your password" />
-            </div>
-            {% endif %} {% if error == 'pwcheck' %}
-            <div class="mb-8 flex">
-                <label class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2" for="password">
-                    pw check:
-                </label>
-                <input
-                    class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                    id="pwcheck" name="pwcheck" type="password" placeholder="Check your password" />
-            </div>
-            <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
-            {% endif %}
+      <form
+        action="/signup"
+        method="post"
+        class="abc bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
+      >
+        <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
+          Jungle Quiz
+        </h1>
+        {% if (error is none) or (error != 'username') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="username"
+          >
+            username:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+          />
+        </div>
+        {% endif %} {% if error == 'username' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="username"
+          >
+            username:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your name"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %} {% if (error is none) or (error != 'password') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="password"
+          >
+            password:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        {% endif %} {% if error == 'password' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal text-gray-700 font-bold m-2"
+            for="password"
+          >
+            password:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %} {% if (error is none) or (error != 'pwcheck') %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2"
+            for="password"
+          >
+            pw check:
+          </label>
+          <input
+            class="shadow outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="pwcheck"
+            name="pwcheck"
+            type="password"
+            placeholder="Check your password"
+          />
+        </div>
+        {% endif %} {% if error == 'pwcheck' %}
+        <div class="mb-8 flex">
+          <label
+            class="block font-normal whitespace-nowrap text-gray-700 font-bold m-2"
+            for="password"
+          >
+            pw check:
+          </label>
+          <input
+            class="shadow border-2 border-red-400 outline-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+            id="pwcheck"
+            name="pwcheck"
+            type="password"
+            placeholder="Check your password"
+          />
+        </div>
+        <h2 class="mb-4 text-red-500">{{ msg }} !!</h2>
+        {% endif %}
 
-            <div class="flex justify-center text-center mb-3">
-                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
-                    type="submit">
-                    가입하기
-                </button>
-            </div>
-        </form>
+        <div class="flex justify-center text-center mb-3">
+          <button
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+            type="submit"
+          >
+            가입하기
+          </button>
+        </div>
+      </form>
     </div>
-</body>
-
+  </body>
 </html>
