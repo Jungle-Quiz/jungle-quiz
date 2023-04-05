@@ -69,15 +69,20 @@ def getSignupPage():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.form['username']
-    password = request.form['password']
-    pwcheck = request.form['pwcheck']
-
+    username = request.form['username'].strip()
+    password = request.form['password'].strip()
+    pwcheck = request.form['pwcheck'].strip()
     if username == None or username == '':
         return render_template('signup.html', error='username', msg='Username is required')
+    
+    if len(username.split()) > 1:
+        return render_template('signup.html', error='username', msg='no withespace in the middle of username')
 
     if password == None or password == '':
         return render_template('signup.html', error='password', msg='Password is required')
+    
+    if len(password.split()) > 1:
+        return render_template('signup.html', error='password', msg='no withespace in the middle of password')
 
     if pwcheck != password:
         return render_template('signup.html', error='pwcheck', msg='Pwcheck must same password')
@@ -103,8 +108,8 @@ def getLoginPage():
 @app.route('/signin', methods=['POST'])
 def login():
     # validation
-    username = request.form['username']
-    password = request.form['password']
+    username = request.form['username'].stip()
+    password = request.form['password'].stip()
 
     if username == None or username == '':
         return render_template('signin.html', error='username', msg='Username is required')
