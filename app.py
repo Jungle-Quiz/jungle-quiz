@@ -211,6 +211,7 @@ def create_problem():
 @app.route('/api/solved_problems', methods=["POST"])
 def quiz_grading():
     user = request.user
+    print(user['_id'])
     pids = request.get_json()['problems']
     answers = request.get_json()['answers']
     
@@ -231,13 +232,43 @@ def quiz_grading():
         answer = pidAnswerMapper[p['_id']]
         correct = answer == p['answer']
         
+        # solved_problmes를 만들어보자 한번!!
+        fsp = db.solvedproblems.find_one({'userId': user['_id'], 'problemId': p['_id']}) 
+        if fsp != None:
+            print("이미 한 번 풀어봤던 문제이긴 하다.")
+            db.solvedproblems.delete_one({'userId': user['_id'], 'problemId': p['_id']})
+        
+        db.solvedproblems.insert_one({'userId': user['_id'], 'problemId': p['_id'], 'answer': answer, 'correct': correct})
+        
         p['_id'] = str(p['_id'])
         solved_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})
         correctCount += 1 if correct else 0
 
-    return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
+    return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids), username=user['username'])
+
+@app.route('/userinfos')
+def userinfo():
+    arcrt = True if request.args.get('correct') == "True" else False
+    user = request.user
+    
+    solvedproblems = list(db.solvedproblems.find({'userId': user['_id'], 'correct': arcrt}))
+    user_problems = []
+    correctCount = 0
+    
+    
+    for sp in solvedproblems:
+        print(sp)
+        answer = sp['answer'] # 선택한 정답
+        correct = sp['correct']
+        p = db.problems.find_one({'_id': sp['problemId']})    
+        p['_id'] = str(p['_id'])
+        user_problems.append({'problem': p, 'answer' : answer, 'correct' : correct})
+
+    return render_template('userinfo.html', user_problems=user_problems, correct=arcrt, total=len(solvedproblems))
+
+
 
 if __name__ == '__main__':
     for ps in permitAllResourcesString:
         permitAllResourcesPattern.append(re.compile(ps))
-    app.run('0.0.0.0', port=5050, debug=True)
+    app.run('0.0.0.0', port=8000, debug=True)

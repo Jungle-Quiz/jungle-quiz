@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>퀴즈결과 - 정글퀴즈</title>
+</head>
+
+<body>
+  <div class="w-96 mx-auto mt-10 pb-96">
+    <div>
+      <div class="text-4xl">
+        {% if correct == True%}
+        <span>맞힌 문제 수 : {{total}}</span>
+        {% endif %}
+
+
+        {% if correct == False%}
+        <span>틀린 문제 수 : {{total}}</span>
+        {% endif %}
+      </div>
+      <div class="flex justify-center text-center my-6">
+        <a href="/" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">메인화면으로</a>
+      </div>
+      <div>
+        {% for user_problem in user_problems %}
+        <div class="box my-8">
+          <div>
+
+            {% if user_problem.correct == True %}
+            <p class="text-lg font-bold pb-3">
+              Q{{loop.index}}. {{user_problem.problem.title}}
+            </p>
+            {% endif %}
+
+            {% if user_problem.correct == False %}
+            <p class="text-lg font-bold text-red-400 pb-3">
+              Q{{loop.index}}. {{user_problem.problem.title}}
+            </p>
+            {% endif %}
+
+            <ul style="list-style: none" class="list-disc">
+              {% for bogi in user_problem.problem.content %}
+              <li>{{loop.index}}. {{bogi}}</li>
+              {% endfor %}
+            </ul>
+            <div class="flex flex-row pt-3">
+              <p class="pe-9 text-green-500">
+                정답 : {{user_problem.problem.answer + 1}}
+              </p>
+              <p>선택 : {{user_problem.answer + 1}}</p>
+            </div>
+            <hr />
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="flex justify-center text-center">
+        <a href="/" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">메인화면으로</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

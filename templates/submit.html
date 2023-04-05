@@ -9,6 +9,25 @@
 </head>
 
 <body>
+  <nav class="flex items-center justify-end flex-wrap p-6">
+    <div class="">
+      <select onchange="location = this.value;"
+        class="inline-block text-sm px-4 py-1.5 leading-none border rounded text-black mt-4 lg:mt-0">
+        <option value="" disabled selected>{{username}} 님</option>
+        <option value="/userinfos?correct=True">
+          맞힌 문제
+        </option>
+        <option value="/userinfos?correct=False">
+          틀린 문제
+        </option>
+      </select>
+      <!-- <a href="/userinfos"
+        class="inline-block text-sm px-4 py-2 leading-none border rounded text-black mt-4 lg:mt-0">{{username}} 님</a> -->
+      <a href="/logout"
+        class="inline-block text-sm px-4 py-2 leading-none border rounded text-black mt-4 lg:mt-0">Logout</a>
+    </div>
+  </nav>
+
   <div class="w-96 mx-auto mt-10 pb-96">
     <div>
       <div class="text-4xl">
