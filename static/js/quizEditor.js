@@ -49,7 +49,7 @@ const handleAddContentBtnClick = (event) => {
   const contentHTML = `
     <label class="inline-flex items-center mt-3 w-full">
       <input type="radio" class="form-radio text-indigo-600" name="${radioName}">
-      <input type="text" class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="보기를 입력해주세요">
+      <input type="text" maxlength="100" class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="보기를 입력해주세요">
       <button
         onclick="handleRemoveContentBtnClick(event)"
         class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
@@ -92,6 +92,7 @@ const handleAddQuizBtnClick = () => {
               type="text"
               class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               placeholder="보기를 입력해주세요"
+              maxlength="100"
             />
             <button
               onclick="handleRemoveContentBtnClick(event)"
@@ -110,6 +111,7 @@ const handleAddQuizBtnClick = () => {
               type="text"
               class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               placeholder="보기를 입력해주세요"
+              maxlength="100"
             />
             <button
               onclick="handleRemoveContentBtnClick(event)"
@@ -122,7 +124,7 @@ const handleAddQuizBtnClick = () => {
         <div class="flex justify-center mb-2 mt-3">
           <button
             id="add-multiple-choice-btn"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full"
             onclick="handleAddContentBtnClick(event)"
           >
             +보기 추가
@@ -162,7 +164,7 @@ const checkTitles = () => {
       return false;
     }
 
-    titles.push($(this).val());
+    titles.push($(this).val().trim());
   });
 
   if (checkTextarea === false) {
@@ -222,22 +224,17 @@ const handleUploadQuizBtnClick = async () => {
   if (category === false) {
     return;
   }
-  console.log("A");
 
   const titles = checkTitles();
   if (titles === false) {
     return;
   }
 
-  console.log("B");
-
   const multipleChoiceList = checkMultipleChoiceList();
 
   if (multipleChoiceList === false) {
     return;
   }
-
-  console.log("C");
 
   // 입력된 데이터를 request body 형식에 맞춰 변형
 
@@ -255,7 +252,7 @@ const handleUploadQuizBtnClick = async () => {
 
     const content = [];
     inputs.each(function () {
-      content.push(this.value);
+      content.push(this.value.trim());
     });
 
     const problem = {
