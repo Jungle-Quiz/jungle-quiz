@@ -62,7 +62,9 @@ def home():
 
 @app.route('/signup', methods=['GET'])
 def getSignupPage():
-    return render_template('signup.html')
+    resp = make_response(render_template('signup.html'))
+    resp.delete_cookie("jwt_auth")
+    return resp
 
 
 @app.route('/signup', methods=['POST'])
@@ -119,7 +121,6 @@ def login():
 
     pw = password.encode("utf-8")
     hashed_pw = bcrypt.hashpw(pw, user['password'])
-    print(hashed_pw)
     
     if user['password'] != hashed_pw:
         # error
@@ -127,7 +128,6 @@ def login():
                                error='password', msg='password is not valid')
 
     encoded_jwt = jwt.encode({'userId': str(user['_id'])}, "secret", algorithm="HS256")
-    print(encoded_jwt)
 
     resp = make_response(redirect('/'))
     resp.set_cookie('jwt_auth', encoded_jwt)
