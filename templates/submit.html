@@ -36,14 +36,10 @@
                 {% endfor %}
               </ul>
               <div class="flex flex-row pt-3">
-                {% if solved_problem.correct == False %}
                 <p class="pe-9 text-green-500">
-                  정답 : {{solved_problem.problem.answer}}
+                  정답 : {{solved_problem.problem.answer + 1}}
                 </p>
-                {% endif %} {% if solved_problem.correct == True %}
-                <p class="pe-9">정답 : {{solved_problem.problem.answer}}</p>
-                {% endif %}
-                <p>선택 : {{solved_problem.answer}}</p>
+                <p>선택 : {{solved_problem.answer + 1}}</p>
               </div>
               <hr />
             </div>
