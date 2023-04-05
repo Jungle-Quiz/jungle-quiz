@@ -67,6 +67,10 @@ const handleWindowReady = async () => {
   await getProblems();
 };
 
+const handleBeforeUnload = () => {
+  return "문제를 모두 풀지 않으셨습니다";
+};
+
 const handleSubmit = async () => {
   const problemIdList = [];
   const answerList = [];
@@ -102,6 +106,7 @@ const handleSubmit = async () => {
     });
 
     localStorage.setItem("quiz_result", res.data);
+    $(window).off("beforeunload", handleBeforeUnload);
     location.href = "/result";
   } catch (err) {
     alert(err);
@@ -115,3 +120,4 @@ const handleSubmit = async () => {
 };
 
 $(document).ready(handleWindowReady);
+$(window).on("beforeunload", handleBeforeUnload);
