@@ -7,6 +7,10 @@ const categorySelect = $("#category");
 
 let quizNumber = 1;
 
+const handleBeforeUnload = () => {
+  return "퀴즈가 제출되지 않았습니다.";
+};
+
 const handleRemoveQuizBtnClick = (event) => {
   const result = confirm("해당 퀴즈를 삭제하시겠습니까?");
   if (result === false) {
@@ -269,15 +273,15 @@ const handleUploadQuizBtnClick = async () => {
   try {
     await axios.post("/api/problems", { problems });
     alert("문제를 성공적으로 생성하였습니다");
+    $(window).off("beforeunload", handleBeforeUnload);
+
     location.href = "/";
   } catch (err) {
     alert(err);
   }
 };
 
-$(window).on("beforeunload", function () {
-  return "퀴즈가 제출되지 않았습니다.";
-});
+$(window).on("beforeunload", handleBeforeUnload);
 addQuizBtn.on("click", handleAddQuizBtnClick);
 addContentBtn.on("click", handleAddContentBtnClick);
 uploadQuizBtn.on("click", handleUploadQuizBtnClick);

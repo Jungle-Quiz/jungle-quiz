@@ -182,7 +182,7 @@ def get_problems():
 def create_problem():
     problems = request.get_json()['problems']
     for problem in problems:
-        problems['answer'] = int(problem['answer'])
+        problem['answer'] = int(problem['answer'])
     db.problems.insert_many(problems)
     return {"success": True}
 
