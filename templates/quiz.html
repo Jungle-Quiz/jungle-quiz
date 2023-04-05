@@ -1,157 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko">    
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>*quiz*</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        const searchParams = new URLSearchParams(location.search);
-        
-        
-        $(document).ready(function(){
-            received_cat();
-            test();
-        });
-
-        
-        function submit(){
-            const cnt = searchParams.get('count');
-            var arr = new Array();
-            for(let i=0;i<cnt;i++){
-                if(!$(`input:radio[name=radio-group-${i}]`).is(':checked')) {   
-                    alert("아직 답을 안한 문제가 있습니다.")
-                    return;
-                }
-            }
-            return href="http://localhost:5050/result";
-        };
-
-        function received_cat(){
-            $('#title-category').empty();
-            
-            const cat = searchParams.get('category');
-            const item = document.getElementById("title-category");
-            const cat_ti = document.createTextNode(cat);
-            item.appendChild(cat_ti);
-            
-        }
-        function test(){
-            const cnt = searchParams.get('count');
-            const cat = searchParams.get('category');
-            $('#test_box').empty();
-            console.log(cnt)
-            
-            $.ajax({
-                type:"GET",
-                url:"/api/problems",
-                data:{'category':cat,'count':cnt},
-                
-                success: function(response){
-                    console.log(cnt)
-                    let lst = response['problems'];
-                    
-                    
-                    for(var i=0;i < cnt;i++){
-                        console.log(cnt)
-                        let quiz=lst[i];
-                        var content = new Array();
-
-                        const title = quiz['title'];
-                        content = quiz['content'];
-
-                        let tempHTML_1 = `
-                        <h3 class="text-left text-xl font-bold">Q.${i+1}</h3>
-                        <div>
-                            <p class="text-lg font-bold">${title}</p>
-                            <ul  class="text-base list-disc">`
-                        $('#test_box').append(tempHTML_1);
-                        var count=1;
-                        var num = 9312;
-                        for(let cont in content){
-                            
-                            let tempHTML_2 = `
-                            <li style="list-style:none">&#${num} ${cont}
-                                <input
-                                type="radio"
-                                class="form-radio text-indigo-600"
-                                name="radio-group-${i}"
-                                value="option${count}"
-                                
-                                />
-                            </li>`
-                            count++;
-                            num++;
-                            
-                        $('#test_box').append(tempHTML_2);
-                        };
-                        
-                        let tempHTML_3 = `
-                            </ul>
-                            <hr class="border-t-2 my-5" />
-                        </div>
-                        `
-                        
-                        $('#test_box').append(tempHTML_3);
-                    }
-
-                }
-
-            });
-        }
-            
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
   </head>
-  <body class="bg-gray-100 h-screen">
-    <div class="container mx-auto px-4 h-full flex justify-center items-center">
-        <div class="bg-white shadow-md rounded px-14 pt-6 pb-8 mb-4 flex flex-col">
-            <div id="category" class="py-10 height-1rm border-0">
-                <h2 id="title-category" class="text-3xl text-left font-bold box-shadow">카테고리</h2>
-            </div>
-            <div id="test_box" class="box">
-                <h3 class="text-left text-xl font-bold">Q.1</h3>
-                <div>
-                    <p class="text-lg font-bold">문제-------</p>
-                    <ul style="list-style:none" class="text-base list-disc">
-                        <li>&#9312 보기를 입력해주세요
-                            <input
-                            type="radio"
-                            class="form-radio text-indigo-600"
-                            name="radio-group"
-                            value="option1"
-                            />
-                        </li>
-                        <li>&#9313 보기를 입력해주세요
-                            <input
-                            type="radio"
-                            class="form-radio text-indigo-600"
-                            name="radio-group"
-                            value="option2"
-                            />
-                        </li>
-                        <li>&#9314 보기를 입력해주세요
-                            <input
-                            type="radio"
-                            class="form-radio text-indigo-600"
-                            name="radio-group"
-                            value="option3"
-                            />
-                        </li>
-                    </ul>
-                    <hr class="border-t-2 my-5" />
-                </div>
-            </div>
-            <div class="flex justify-center mb-2">
-                <button id="submit" type="button" onclick="submit"
-                class="inline-flex items-center justify-center rounded-md p-2 text-white bg-gray-700/50 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" 
-                >제출하기</button>
-            </div>
+  <body>
+    <div class="w-96 mx-auto mt-10">
+      <div class="bg-white px-14 pt-6 pb-8 mb-4 flex flex-col">
+        <h2 id="title-category" class="text-3xl text-left font-bold box-shadow">
+          카테고리
+        </h2>
+        <div id="quiz-container" class="box mb-5">
+          <!-- 문제랑 보가 들어갈 곳 -->
         </div>
+        <div class="flex justify-center mb-2">
+          <button
+            id="submit"
+            type="button"
+            onclick="handleSubmit()"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+          >
+            제출하기
+          </button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
