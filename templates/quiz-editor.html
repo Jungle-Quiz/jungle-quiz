@@ -1,92 +1,131 @@
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="{{ url_for('static', filename='js/quizEditor.js') }}" defer></script>
-  <title>퀴즈 생성 - 정글퀴즈</title>
-</head>
-
-<body>
-  <div class="w-96 mx-auto mt-10">
-    <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
-      <a href="/">Jungle Quiz</a>
-    </h1>
-    <div id="quiz-container">
-      <div class="mb-3">
-        <select
-          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="category">
-          <option value="" disabled selected>카테고리</option>
-          <option value="파이썬">파이썬</option>
-          <option value="자료구조/알고리즘">자료구조/알고리즘</option>
-          <option value="운영체제">운영체제</option>
-          <option value="C언어">C언어</option>
-          <option value="기타">기타</option>
-        </select>
-      </div>
-      <div class="mb-3">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="{{ url_for('static', filename='js/quizEditor.js') }}"
+      defer
+    ></script>
+    <title>퀴즈 생성 - 정글퀴즈</title>
+  </head>
+  <body>
+    <div class="w-96 mx-auto mt-10">
+      <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
+        <a href="/">Jungle Quiz</a>
+      </h1>
+      <div id="quiz-container">
         <div class="mb-3">
-          <label class="block text-gray-700 font-bold mb-2" for="textarea">
-            문제를 입력해주세요:
-          </label>
-          <textarea placeholder="문제를 입력해주세요."
-            class="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="textarea" rows="4"></textarea>
+          <select
+            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="category"
+          >
+            <option value="" disabled selected>카테고리</option>
+            <option value="파이썬">파이썬</option>
+            <option value="자료구조/알고리즘">자료구조/알고리즘</option>
+            <option value="운영체제">운영체제</option>
+            <option value="C언어">C언어</option>
+            <option value="기타">기타</option>
+          </select>
         </div>
-        <div class="flex flex-col mb-2 multiple-choice">
-          <div class="block text-gray-700 font-bold mb-2">
-            보기를 입력하고 정답을 체크해주세요
-          </div>
-          <div class="multiple-choice-container">
-            <label class="inline-flex items-center mt-3 w-full">
-              <input type="radio" class="form-radio text-indigo-600" name="radio-group-0" />
-              <input type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="보기를 입력해주세요" maxlength="100" />
-              <button class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded">
+        <div class="mb-3 quiz">
+          <div class="mb-3">
+            <label
+              class="block text-gray-700 font-bold mb-2 flex justify-center items-center"
+              for="textarea"
+            >
+              <span>문제를 입력해주세요:</span>
+              <button
+                class="remove-quiz-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded ml-auto"
+              >
                 ❌
               </button>
             </label>
-            <label class="inline-flex items-center mt-3 w-full">
-              <input type="radio" class="form-radio text-indigo-600" name="radio-group-0" />
-              <input type="text"
-                class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="보기를 입력해주세요" maxlength="100  " />
-              <button class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded">
-                ❌
-              </button>
-            </label>
+            <textarea
+              placeholder="문제를 입력해주세요."
+              class="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="textarea"
+              rows="4"
+            ></textarea>
           </div>
-          <div class="flex justify-center mb-2 mt-3">
-            <button id="add-multiple-choice-btn"
-              class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full">
-              +보기 추가
-            </button>
+          <div class="flex flex-col mb-2 multiple-choice">
+            <div class="block text-gray-700 font-bold mb-2">
+              보기를 입력하고 정답을 체크해주세요
+            </div>
+            <div class="multiple-choice-container">
+              <label class="inline-flex items-center mt-3 w-full">
+                <input
+                  type="radio"
+                  class="form-radio text-indigo-600"
+                  name="radio-group-0"
+                />
+                <input
+                  type="text"
+                  class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  placeholder="보기를 입력해주세요"
+                  maxlength="100"
+                />
+                <button
+                  class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
+                >
+                  ❌
+                </button>
+              </label>
+              <label class="inline-flex items-center mt-3 w-full">
+                <input
+                  type="radio"
+                  class="form-radio text-indigo-600"
+                  name="radio-group-0"
+                />
+                <input
+                  type="text"
+                  class="ml-3 block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  placeholder="보기를 입력해주세요"
+                  maxlength="100  "
+                />
+                <button
+                  class="remove-content-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded"
+                >
+                  ❌
+                </button>
+              </label>
+            </div>
+            <div class="flex justify-center mb-2 mt-3">
+              <button
+                id="add-multiple-choice-btn"
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full"
+              >
+                +보기 추가
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <hr class="border-t-2 border-gray-300 my-8" />
+      <div class="flex justify-center mb-2">
+        <button
+          id="add-quiz"
+          class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          +퀴즈 추가
+        </button>
+      </div>
+      <div class="flex justify-center mb-2">
+        <button
+          id="upload-quiz-btn"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          출제 하기
+        </button>
+      </div>
     </div>
-    <hr class="border-t-2 border-gray-300 my-8" />
-    <div class="flex justify-center mb-2">
-      <button id="add-quiz" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full">
-        +퀴즈 추가
-      </button>
-    </div>
-    <div class="flex justify-center mb-2">
-      <button id="upload-quiz-btn"
-        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
-        출제 하기
-      </button>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>

@@ -2,6 +2,7 @@ const quizContainer = $("#quiz-container");
 const addQuizBtn = $("#add-quiz");
 const uploadQuizBtn = $("#upload-quiz-btn");
 const addContentBtn = $("#add-multiple-choice-btn");
+const removeQuizBtn = $(".remove-quiz-btn");
 const removeContentBtns = $(".remove-content-btn");
 const categorySelect = $("#category");
 
@@ -16,11 +17,18 @@ const handleRemoveQuizBtnClick = (event) => {
   if (result === false) {
     return;
   }
+  const quizElements = $(".quiz");
+  if (quizElements.length === 1) {
+    return alert("퀴즈는 최소 1개 이상이어야 합니다.");
+  }
+
   const btn = $(event.currentTarget);
-  const quizElement = btn.parent().parent();
+  const quizElement = btn.parent().parent().parent();
   const hrElement = quizElement.prev();
   quizElement.remove();
-  hrElement.remove();
+  if (hrElement.prop("tagName") === "HR") {
+    hrElement.remove();
+  }
 };
 
 const handleRemoveContentBtnClick = (event) => {
@@ -65,10 +73,19 @@ const handleAddContentBtnClick = (event) => {
 const handleAddQuizBtnClick = () => {
   const html = `
     <hr class="border-t-2 border-gray-300 my-8" />
-    <div class="mb-3">
+    <div class="mb-3 quiz">
       <div class="mb-3">
-        <label class="block text-gray-700 font-bold mb-2" for="textarea">
-          문제를 입력해주세요:
+        <label
+          class="block text-gray-700 font-bold mb-2 flex justify-center items-center"
+          for="textarea"
+        >
+          <span>문제를 입력해주세요:</span>
+          <button
+            onclick="handleRemoveQuizBtnClick(event)"
+            class="remove-quiz-btn bg-white-500 hover:bg-gray-100 text-white font-bold py-2 px-4 rounded ml-auto"
+          >
+            ❌
+          </button>
         </label>
         <textarea
           placeholder="문제를 입력해주세요."
@@ -285,3 +302,4 @@ uploadQuizBtn.on("click", handleUploadQuizBtnClick);
 removeContentBtns.each(function () {
   $(this).on("click", handleRemoveContentBtnClick);
 });
+removeQuizBtn.on("click", handleRemoveQuizBtnClick);
