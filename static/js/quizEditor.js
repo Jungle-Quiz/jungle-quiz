@@ -234,7 +234,7 @@ const checkMultipleChoiceList = () => {
   return multipleChoiceList;
 };
 
-const handleUploadQuizBtnClick = async () => {
+const handleUploadQuizBtnClick = async (event) => {
   // 누락된 사항 체크
 
   const category = checkCategory();
@@ -285,6 +285,11 @@ const handleUploadQuizBtnClick = async () => {
   console.log(problems);
 
   try {
+    event.currentTarget.innerHTML = `
+    <div class="flex justify-center items-center">
+      <div class="loader"></div>
+    </div>
+    `;
     await axios.post("/api/problems", { problems });
     alert("문제를 성공적으로 생성하였습니다");
     $(window).off("beforeunload", handleBeforeUnload);

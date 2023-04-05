@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로그인 - 정글퀴즈</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/spinner.css') }}"
+    />
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
       crossorigin="anonymous"
     ></script>
+    <script src="{{ url_for('static', filename='js/spinner.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script>
         function signin() {
@@ -158,6 +163,7 @@
             <button
               class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
               type="submit"
+              onclick="handleSpinnerBtnClick(event)"
             >
               로그인
             </button>

@@ -63,7 +63,7 @@ const handleBeforeUnload = () => {
   return "문제를 모두 풀지 않으셨습니다";
 };
 
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
   const problemIdList = [];
   const answerList = [];
 
@@ -92,6 +92,13 @@ const handleSubmit = async () => {
 
   try {
     // post 요청보내기
+    const submitBtn = event.currentTarget;
+    submitBtn.innerHTML = `
+    <div class="flex justify-center items-center">
+      <div class="loader"></div>
+    </div>
+    `;
+
     const res = await axios.post("/api/solved_problems", {
       problems: problemIdList,
       answers: answerList,
