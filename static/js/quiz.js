@@ -6,17 +6,9 @@ const count = searchParams.get("count");
 const category = searchParams.get("category");
 
 const applyCategory = () => {
-  const categoryText = {
-    DS_LANG: "자료구조/알고리즘 퀴즈",
-    C_LANG: "C언어 퀴즈",
-    PYTHON: "파이썬 퀴즈",
-    OS: "운영체제 퀴즈",
-    ETC: "기타 퀴즈",
-  };
-
   const categoryElement = document.getElementById("title-category");
-  categoryElement.innerText = categoryText[category];
-  document.title = `${categoryText[category]} - 정글퀴즈`;
+  categoryElement.innerText = category + " 퀴즈";
+  document.title = `${category} - 정글퀴즈`;
 };
 
 const getProblems = async () => {
@@ -29,7 +21,7 @@ const getProblems = async () => {
     let radioNumber = 0;
     problems.forEach((problem) => {
       const titleElement = document.createElement("div");
-      titleElement.classList.add("text-lg", "mt-3");
+      titleElement.classList.add("text-lg", "mt-8");
       titleElement.innerHTML = `${problem.title}`;
 
       const contentContainer = document.createElement("div");
