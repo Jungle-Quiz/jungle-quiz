@@ -21,7 +21,8 @@ client = MongoClient(os.getenv('MONGO_URL'), 27017)
 db = client.junglequiz
 
 
-permitAllResources = ['/static/*', '/signin', '/signup']
+permitAllResourcesString = ['/static/*', '/signin', '/signup']
+permitAllResourcesPattern = []
 
 @app.before_request
 def before_request():
@@ -29,7 +30,7 @@ def before_request():
     
     canPass = False
 
-    for pr in permitAllResources:
+    for pr in permitAllResourcesPattern:
         if checkMatching(pr, path) == True:
             canPass = True
             break;
@@ -46,8 +47,7 @@ def before_request():
     
     
 def checkMatching(pr, path):
-    p = re.compile(pr)
-    ret = p.match(path)
+    ret = pr.match(path)
     if ret != None and ret.start() == 0:
         return True
     else:
@@ -217,4 +217,6 @@ def quiz_grading():
     return render_template('submit.html', solved_problems=solved_problems, correctCount=correctCount, total=len(pids))
 
 if __name__ == '__main__':
+    for ps in permitAllResourcesString:
+        permitAllResourcesPattern.append(re.compile(ps))
     app.run('0.0.0.0', port=5050, debug=True)
