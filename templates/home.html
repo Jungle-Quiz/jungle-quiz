@@ -1,75 +1,90 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
+    <title>정글퀴즈</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
-  <title>정글퀴즈</title>
-</head>
-
-<body>
-  <nav class="flex items-center justify-end flex-wrap p-6">
-    <div class="border-solid border-2">
-      <span class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white">{{username}}
-      </span>
-      <a href="/logout"
-        class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white mt-4 lg:mt-0">Logout</a>
-
+  <body>
+    <div class="w-96 mx-auto mt-10">
+      <nav class="flex items-center justify-end flex-wrap p-6 pr-0">
+        <div class="border-solid border-2">
+          <span
+            class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white"
+            >{{username}}
+          </span>
+          <a
+            href="/logout"
+            class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white mt-4 lg:mt-0"
+            >Logout</a
+          >
+        </div>
+      </nav>
+      <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
+        <a href="/">Jungle Quiz</a>
+      </h1>
+      <div class="mb-3">
+        <label class="block text-gray-700 font-bold mb-2" for="select">
+          문제 주제
+        </label>
+        <select
+          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="category-select"
+          name="문제 주제 선택"
+        >
+          <option value="" disabled selected>문제 주제 선택</option>
+          {% for category in problems %}
+          <option value="{{category._id}}">
+            {{category._id}} (문항: {{category.count}})
+          </option>
+          {% endfor %}
+          <option value="PYTHON">파이썬</option>
+          <option value="DS_ALG">자료구조/알고리즘</option>
+          <option value="OS">운영체제</option>
+          <option value="C_LANG">C언어</option>
+          <option value="ETC">기타</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="block text-gray-700 font-bold mb-2" for="select">
+          문항수
+        </label>
+        <select
+          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="count-select"
+          name="문항수"
+        >
+          <option value="" disabled selected>문항수</option>
+          <option value="10">10문제</option>
+          <option value="15">15문제</option>
+          <option value="20">20문제</option>
+          <option value="ALL">모든문제</option>
+        </select>
+      </div>
+      <div class="flex justify-center mb-2">
+        <button
+          id="quiz-btn"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          퀴즈 풀기
+        </button>
+      </div>
+      <div class="flex justify-center text-center">
+        <a
+          href="/new-quiz"
+          class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full"
+          >퀴즈 생성</a
+        >
+      </div>
     </div>
-  </nav>
-
-  <div class="w-96 mx-auto mt-10">
-    <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
-      <a href="/">Jungle Quiz</a>
-    </h1>
-    <div class="mb-3">
-      <label class="block text-gray-700 font-bold mb-2" for="select">
-        문제 주제
-      </label>
-      <select
-        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="category-select" name="문제 주제 선택">
-        <option value="" disabled selected>문제 주제 선택</option>
-        {% for category in problems %}
-        <option value="{{category._id}}">{{category._id}} (문항: {{category.count}})</option>
-        {% endfor %}
-        <option value="PYTHON">파이썬</option>
-        <option value="DS_ALG">자료구조/알고리즘</option>
-        <option value="OS">운영체제</option>
-        <option value="C_LANG">C언어</option>
-        <option value="ETC">기타</option>
-
-      </select>
-    </div>
-    <div class="mb-3">
-      <label class="block text-gray-700 font-bold mb-2" for="select">
-        문항수
-      </label>
-      <select
-        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="count-select" name="문항수">
-        <option value="" disabled selected>문항수</option>
-        <option value="10">10문제</option>
-        <option value="15">15문제</option>
-        <option value="20">20문제</option>
-        <option value="ALL">모든문제</option>
-      </select>
-    </div>
-    <div class="flex justify-center mb-2">
-      <button id="quiz-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
-        퀴즈 풀기
-      </button>
-    </div>
-    <div class="flex justify-center text-center">
-      <a href="/new-quiz" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full">퀴즈 생성</a>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>
