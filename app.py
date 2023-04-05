@@ -183,8 +183,8 @@ def get_problems():
     print(type(count))
 
     pipeline = [
-        {"$sample": {"size": count}},
         {"$match": {"category": category}},
+        {"$sample": {"size": count}},
         {"$project": {"user": 0}}
     ]
 
