@@ -163,7 +163,8 @@ def get_problems():
 
     pipeline = [
         {"$sample": {"size": count}},
-        {"$match": {"category": category}}
+        {"$match": {"category": category}},
+        {"$project": {"user": 0}}
     ]
 
     problems = list(db.problems.aggregate(pipeline))
@@ -172,7 +173,8 @@ def get_problems():
     for problem in problems:
         problem['_id'] = str(problem['_id'])
         result.append(problem)
-
+    print(result)
+    
     return jsonify({'problems': result})
 
 
