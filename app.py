@@ -63,7 +63,17 @@ def checkMatching(pr, path):
 @app.route('/')
 def home():
     user = request.user
-    return render_template('home.html')
+    pipeline = [
+        {
+            '$group': {
+                '_id': '$category',
+                'count': {'$sum': 1}
+            } 
+        }
+    ]
+    problems = list(db.problems.aggregate(pipeline))
+    
+    return render_template('home.html', username=user['username'], problems=problems)
 
 
 @app.route('/signup', methods=['GET'])
