@@ -100,8 +100,6 @@ const handleSubmit = async () => {
       answers: answerList,
     });
 
-    document.querySelector("html").innerHTML = res.data;
-
     localStorage.setItem("quiz_result", res.data);
     location.href = "/result";
   } catch (err) {
