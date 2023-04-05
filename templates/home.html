@@ -15,20 +15,20 @@
   </head>
 
   <body>
+    <nav class="flex items-center justify-end flex-wrap p-6">
+      <div class="">
+        <span class="text-sm px-4 py-2 leading-none border rounded text-black"
+          >{{username}} 님
+        </span>
+        <a
+          href="/logout"
+          class="inline-block text-sm px-4 py-2 leading-none border rounded text-black mt-4 lg:mt-0"
+          >Logout</a
+        >
+      </div>
+    </nav>
+
     <div class="w-96 mx-auto mt-10">
-      <nav class="flex items-center justify-end flex-wrap p-6 pr-0">
-        <div class="border-solid border-2">
-          <span
-            class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white"
-            >{{username}}
-          </span>
-          <a
-            href="/logout"
-            class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-white mt-4 lg:mt-0"
-            >Logout</a
-          >
-        </div>
-      </nav>
       <h1 class="text-green-500 text-4xl font-bold text-center mb-10">
         <a href="/">Jungle Quiz</a>
       </h1>
@@ -47,11 +47,6 @@
             {{category._id}} (문항: {{category.count}})
           </option>
           {% endfor %}
-          <option value="PYTHON">파이썬</option>
-          <option value="DS_ALG">자료구조/알고리즘</option>
-          <option value="OS">운영체제</option>
-          <option value="C_LANG">C언어</option>
-          <option value="ETC">기타</option>
         </select>
       </div>
       <div class="mb-3">
