@@ -16,6 +16,7 @@ const applyCategory = () => {
 
   const categoryElement = document.getElementById("title-category");
   categoryElement.innerText = categoryText[category];
+  document.title = `${categoryText[category]} - 정글퀴즈`;
 };
 
 const getProblems = async () => {
